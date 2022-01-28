@@ -17,7 +17,6 @@ namespace socialapp.Models
         public string Content { get; set; }
         [Required]
         public DateTime DateTime { get; set; }
-        [Required]
         public string UserId { get; set; }
         public UserModel User { get; set; }
 
