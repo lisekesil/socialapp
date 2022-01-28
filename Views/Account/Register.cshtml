@@ -1,0 +1,28 @@
+﻿@model socialapp.Models.RegisterModel
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+<form asp-action="Register" method="post">
+    <input class="form-control" asp-for="Name" placeholder="Login" />
+    <span asp-validation-for="Name"></span>
+    <br />
+    <input class="form-control" asp-for="FirstName" placeholder="Imię" />
+    <span asp-validation-for="Name"></span>
+    <br />
+    <input class="form-control" asp-for="LastName" placeholder="Nazwisko" />
+    <span asp-validation-for="Name"></span>
+    <br />
+    <input class="form-control" asp-for="Email" placeholder="Email" />
+    <span asp-validation-for="Email"></span>
+    <br />
+    <input class="form-control" asp-for="Password" placeholder="Hasło" />
+    <span asp-validation-for="Password"></span>
+    <br />
+    <input class="form-control" asp-for="ConfirmPassword" placeholder="Powtórz hasło" />
+    <span asp-validation-for="ConfirmPassword"></span>
+    <br />
+
+    <input asp-for="ReturnUrl" type="hidden" />
+
+    <button type="submit" class="btn btn-success mt-2">Zarejestruj</button>
+</form>

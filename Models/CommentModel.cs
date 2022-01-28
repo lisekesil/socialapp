@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace socialapp.Models
 {
-    public class PostModel
+    public class CommentModel
     {
         [Key]
-        public int PostId { get; set; }
+        public int CommentId { get; set; }
         [DisplayName("Tresć")]
-        [Required(ErrorMessage = "Uzupełnij treść posta")]
+        [Required(ErrorMessage = "Uzupełnij treść komentarza")]
         [MaxLength(2000, ErrorMessage = "Maksymalna liczba znaków wynosi 2000")]
         public string Content { get; set; }
         [Required]
@@ -20,6 +20,8 @@ namespace socialapp.Models
         [Required]
         public string UserId { get; set; }
         public UserModel User { get; set; }
-        public virtual HashSet<CommentModel> Comments { get; set; }
+
+        public int PostId { get; set; }
+        public PostModel Post { get; set; }
     }
 }

@@ -1,0 +1,18 @@
+﻿@model socialapp.Models.UserPosts;
+
+@{
+    ViewData["Title"] = "Tablica";
+}
+
+<h1>Tablica użytkownika @Model.User.FirstName @Model.User.LastName</h1>
+
+@if (Model != null)
+{
+    @foreach (var item in Model.Posts)
+    {
+        <div class="card m-2 p-2">
+            <p class="">@Html.DisplayFor(modelItem => item.Content)</p>
+            <p class="font-italic">Ostatnia modyfikacja: @Html.DisplayFor(modelItem => item.DateTime)</p>
+        </div>
+    }
+}

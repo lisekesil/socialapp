@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using socialapp.Models;
+using socialapp.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,73 +10,81 @@ using System.Threading.Tasks;
 
 namespace socialapp.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
-        private static IList<PostModel> posts = new List<PostModel>()
+        private IPostRepository repository;
+        private IUserRepository userRepository;
+        private ICommentRepository commentRepository;
+        public PostController(IPostRepository repository, IUserRepository userRepository, ICommentRepository commentRepository)
         {
-            new PostModel() { PostId = 1, Content = "UGAGAGAGGA", DateTime = new DateTime(2008, 6, 1, 7, 47, 0), UserId = 1},
-            new PostModel() { PostId = 2, Content = "post numer 2", DateTime = DateTime.Now, UserId = 1}
-        };
-        // GET: PostController
+            this.repository = repository;
+            this.userRepository = userRepository;
+            this.commentRepository = commentRepository;
+        }
+
+        // GET: Post
         public ActionResult Index()
         {
-            return View(posts);
+            var user = userRepository.Find(User.Identity.Name);
+            if(user != null)
+            {
+                return View(repository.FindPostsByUserId(user.Id));
+            } else
+            {
+                return View();
+            }
         }
 
-        // GET: PostController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: PostController/Create
+        // GET: Post/Create
         public ActionResult Create()
         {
             return View(new PostModel());
         }
 
-        // POST: PostController/Create
+        // POST: Post/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(PostModel postModel)
         {
-            postModel.PostId = posts.Count + 1;
-            postModel.DateTime = DateTime.Now;
-            postModel.UserId = 1;
-            posts.Add(postModel);
+            var user = userRepository.Find(User.Identity.Name);
+            repository.AddPost(new PostModel()
+            {
+                DateTime = DateTime.Now,
+                Content = postModel.Content,
+                UserId = user.Id,
+            });
+
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: PostController/Edit/5
+        // GET: Post/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(posts.FirstOrDefault(x => x.PostId == id));
+            return View(repository.GetPost(id));
         }
 
-        // POST: PostController/Edit/5
+        // POST: Post/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, PostModel postModel)
         {
-            PostModel post = posts.FirstOrDefault(x => x.PostId == id);
-            post.Content = postModel.Content;
-            post.DateTime = DateTime.Now;
+            repository.UpdatePost(id, postModel);
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: PostController/Delete/5
+        // GET: Post/Delete/5
         public ActionResult Delete(int id)
         {
-            return View(posts.FirstOrDefault(x => x.PostId == id));
+            return View(repository.GetPost(id));
         }
 
-        // POST: PostController/Delete/5
+        // POST: Post/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, PostModel postModel)
         {
-            PostModel post = posts.FirstOrDefault(x => x.PostId == id);
-            posts.Remove(post);
+            repository.DeletePost(id);
             return RedirectToAction(nameof(Index));
         }
     }
