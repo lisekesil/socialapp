@@ -18,8 +18,8 @@ W aplikacji są już utworzone konta:
 
 
 wymagane biblioteki:
-Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0"
-Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.13"
-Microsoft.EntityFrameworkCore" Version="5.0.0"
-Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0"
-Microsoft.EntityFrameworkCore.Tools" Version="5.0.0"
+1. Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0"
+2. Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.13"
+3. Microsoft.EntityFrameworkCore" Version="5.0.0"
+4. Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0"
+5. Microsoft.EntityFrameworkCore.Tools" Version="5.0.0"
